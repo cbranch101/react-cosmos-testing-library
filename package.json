@@ -1,0 +1,67 @@
+{
+  "name": "react-cosmos-testing-library",
+  "version": "0.1.0",
+  "description": "An integration between react-cosmos-test and react-testing-library",
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">=8"
+  },
+  "scripts": {
+    "build": "kcd-scripts build",
+    "lint": "kcd-scripts lint",
+    "test": "kcd-scripts test --config=other/jest.config.js",
+    "test:update": "npm test -- --updateSnapshot --coverage",
+    "validate": "kcd-scripts validate",
+    "setup": "npm install && npm run validate -s",
+    "precommit": "kcd-scripts precommit"
+  },
+  "files": [
+    "dist",
+    "typings",
+    "cleanup-after-each.js"
+  ],
+  "keywords": [
+    "testing",
+    "react",
+    "ui",
+    "dom",
+    "jsdom",
+    "unit",
+    "integration",
+    "functional",
+    "end-to-end",
+    "e2e"
+  ],
+  "author": "Clay Branch",
+  "license": "MIT",
+  "dependencies": {
+    "react-cosmos-test": "^4.5.0"
+  },
+  "devDependencies": {
+    "kcd-scripts": "^0.39.1"
+  },
+  "peerDependencies": {
+    "react-dom": "*"
+  },
+  "eslintConfig": {
+    "extends": "./node_modules/kcd-scripts/eslint.js",
+    "rules": {
+      "react/prop-types": "off",
+      "import/no-unassigned-import": "off",
+      "import/named": "off"
+    }
+  },
+  "eslintIgnore": [
+    "node_modules",
+    "coverage",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cbranch101/react-cosmos-testing-library"
+  },
+  "bugs": {
+    "url": "https://github.com/cbranch101/react-cosmos-testing-library/issues"
+  },
+  "homepage": "https://github.com/cbranch101/react-cosmos-testing-library#readme"
+}
