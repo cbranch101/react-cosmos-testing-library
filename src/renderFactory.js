@@ -7,7 +7,7 @@ import {
   getByTestId as getByTestIdRoot,
 } from 'react-testing-library'
 
-import {render} from './render'
+import render from './render'
 
 export default ({
   getProps = props => props,
