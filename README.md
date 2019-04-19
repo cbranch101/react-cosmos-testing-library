@@ -144,8 +144,7 @@ you want to add
 ```javascript
   getTestFunctions: {
     functions: existingFunctions => ({
-        // any new functions you want to add
-        ...existingFunctions,
+        newFunction: // define it here
     }),
   }
 ```
