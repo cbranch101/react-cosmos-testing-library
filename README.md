@@ -5,7 +5,7 @@
   - [Installation](#installation)
   - [Basic Example](#basic-example)
     - [Component](#component)
-    - [](#)
+    - [Cosmos Fixture](#cosmos-fixture)
     - [Test](#test)
   - [renderFactory Options](#renderfactory-options)
   - [New Queries](#new-queries)
@@ -19,7 +19,9 @@
 
 ## Installation
 
-`yarn add --dev react-cosmos-testing-library`
+```console
+yarn add --dev react-cosmos-testing-library
+```
 
 `react-cosmos-testing-library` is also required as a peerDependency
 
@@ -32,7 +34,7 @@ some state handling, some basic content rendered into the dom, and a handler
 that needs to be called. When `ToggleButton` is clicked, `Toggled` will appear
 above the button, and `onToggle` will be called.
 
-```
+```javascript
 class ToggleButton extends React.Component {
   state = {
     isActive: true,
@@ -59,16 +61,14 @@ class ToggleButton extends React.Component {
 }
 ```
 
-###
-
-Cosmos Fixture
+### Cosmos Fixture
 
 This is a very simple fixture in this case, because there aren't very many props
 to ToggleButton. You just need to provide everything the component needs to
 render. For more complicated components, you would export multiple fixtures here
 to represent the different possible configurations of the component.
 
-```
+```javascript
 import ToggleButton from './ToggleButton'
 
 export default {
@@ -85,9 +85,9 @@ export default {
 Now that we have the component and the fixture, it's as simple as stepping
 through the component and testing it in the same way it would be used in Cosmos.
 
-```
+```javascript
 // import the fixture you want to test
-import fixture from 'ToggleButton.fixture.js';
+import fixture from 'ToggleButton.fixture.js'
 import {renderFactory} from 'react-cosmos-testing-library'
 
 const render = renderFactory({
@@ -141,7 +141,7 @@ Receives any already defined test functions and allows you to add test functions
 that are specific to your tests. You only need to return any new functions that
 you want to add
 
-```
+```javascript
   getTestFunctions: {
     functions: existingFunctions => ({
         // any new functions you want to add
@@ -154,22 +154,22 @@ you want to add
 
 A function that allows you to modify the props provided to the fixture
 
-```
-  getProps: props => ({
-    // any modifications you want to make to props
-    ...props,
-  })
+```javascript
+getProps: props => ({
+  // any modifications you want to make to props
+  ...props,
+})
 ```
 
 #### updateFixture
 
 A function that allows you to modify anything in the fixture
 
-```
-  updateFixture: fixture => ({
-    // any modifications you want to make to the fixture
-    ...fixture,
-  })
+```javascript
+updateFixture: fixture => ({
+  // any modifications you want to make to the fixture
+  ...fixture,
+})
 ```
 
 #### callbacks
@@ -178,7 +178,7 @@ An array of strings defining all callback props provided to the component that
 you would like to be automatically stubbed out with jest mock functions that can
 be used in conjunction with `waitForCallback`
 
-```
+```javascript
 callbacks: ['onToggle', 'onClick']
 ```
 
@@ -190,11 +190,15 @@ several new queries are provided
 
 #### clickTestId
 
-`(id) => fireEvent.click(getByTestId(id))`
+```javascript
+id => fireEvent.click(getByTestId(id))
+```
 
 #### clickElement
 
-`element => fireEvent.click(element)`
+```javascript
+element => fireEvent.click(element)
+```
 
 #### makeSureTextIsGone
 
@@ -267,41 +271,41 @@ up a simple serializable string that is much easier to follow when it breaks.
 Create a file that will contain all of your custom serializers for all of your
 tests.
 
-```
-import { serializerBuilder } from 'react-cosmos-testing-library';
+```javascript
+import {serializerBuilder} from 'react-cosmos-testing-library'
 
 const serializerMap = {
   customTable: {
     // the test id for the object you want to serialze
     testIds: ['comparison-values'],
-    print: (val) => {
-        // convert the react testing library dom object
-        // into a string that easily serialized
-        const rows = queryByAllTestId(val, 'row');
-        return rows.map(
-            row => {
-                // As much as possible, rely on the the standard react-testing-library queries, and avoid manual dom traversal
-                const cells = queryAllByTestId(row, 'cell');
-                return cells.reduce(
-                    (rowString, cell) => `:${rowString}:${cell.textContent}`,
-                    '',
-                );
-            }
-        ).join('\n')
+    print: val => {
+      // convert the react testing library dom object
+      // into a string that easily serialized
+      const rows = queryByAllTestId(val, 'row')
+      return rows
+        .map(row => {
+          // As much as possible, rely on the the standard react-testing-library queries, and avoid manual dom traversal
+          const cells = queryAllByTestId(row, 'cell')
+          return cells.reduce(
+            (rowString, cell) => `:${rowString}:${cell.textContent}`,
+            '',
+          )
+        })
+        .join('\n')
     },
   },
 }
 
-const addCustomSerialzers = serializerBuilder(serializerMap);
+const addCustomSerialzers = serializerBuilder(serializerMap)
 
-export default addCustomSerialzers;
+export default addCustomSerialzers
 ```
 
 ### Add the serializer to a test
 
 After defining the serializer, you need to initialize it in the test
 
-```
+```javascript
 import addCustomSerializers from './addCustomSerialzers'
 // this corresponds to the key defined in the serializer map
 // NOTE: this needs to be defined in EVERY test file
