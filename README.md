@@ -8,6 +8,7 @@
     - [Cosmos Fixture](#cosmos-fixture)
     - [Test](#test)
   - [renderFactory Options](#renderfactory-options)
+  - [New Target Types](#new-target-types)
   - [New Queries](#new-queries)
   - [Custom Serializers](#custom-serializers)
     - [addCustomSerializers.js](#addcustomserializersjs)
@@ -181,71 +182,86 @@ be used in conjunction with `waitForCallback`
 callbacks: ['onToggle', 'onClick']
 ```
 
+## New Target Types
+
+These new target types work as expected with all of the following
+`react-testing-library` queries
+
+- getBy
+- getAllBy
+- queryBy
+- queryAllBy
+- findBy
+- findAllBy
+
+in addition to all custom queries
+
+#### IconName
+
+Targets the `xlink:href` attribute
+
+```javascript
+clickIconName('#ico-start')
+```
+
+#### Tag
+
+targets the HTML tag
+
+```javascript
+queryAllByTag('span')
+```
+
+#### ClassStartLastResort
+
+target by the beginning of a class, as is noted in the function name this should
+be used as an absolute last resort
+
+```javascript
+getByClassStartLastResult('target-class-')
+```
+
 ## New Queries
 
 In addition to all of the queries provided by `react-testing-library` documented
 [here](https://testing-library.com/docs/dom-testing-library/api-queries),
-several new queries are provided
+several new queries are provided. All of these queries are provided for all
+valid types. So, in the example of `clickType`, the actual available functions
+would be `clickTestId`, `clickText`, `clickAltText`, `clickPlaceholderText` etc.
 
-#### clickTestId
+#### clickType(input)
 
-```javascript
-id => fireEvent.click(getByTestId(id))
-```
-
-#### clickElement
+Run the provided query looking for a single element and click it
 
 ```javascript
-element => fireEvent.click(element)
+id => fireEvent.click(getByType(id))
 ```
 
-#### makeSureTextIsGone
+#### eliminateByType(input)
 
-Immediately throws an error if the provided text is still in the dom
+Wait for the provided query to not return an element
 
-#### makeSureTestIdIsGone
+#### findByTypeAndClick(input)
 
-same as `makeSureTextIsGone` for test ids
+Wait for the provided query to return a single element and click it
 
-#### getByTestIdInBase
-
-Useful when testing elements that render directly into body(like portals). All
-of the provided queries start at the component that is rendered by cosmos, this
-query looks at the root dom node(the equivalent of body inside of cosmos)
-
-#### waitForCallback
+#### waitForCallback(callbackName, desiredCall)
 
 Requires that a correspondingly named callback was provided in the `callbacks`
 array in the `renderFactory` options. Calling this allows you to wait for
 desired number of calls and then resolves with the provided arguments. If the
 specified number of calls doesn't occur within 5 seconds, an error is thrown
 
-`const argsPassedToSecondOnToggleCall = await waitForCallBack('onToggle', 2)`
+```javascript
+const argsPassedToSecondOnToggleCall = await waitForCallBack('onToggle', 2)
+```
 
-#### waitForTextToBeGone
+#### getWaitForFetchMock(fetchMockName, [processArgs])
 
-An async function that waits for the supplied text to not be in the dom, it will
-error after 5 seconds if it still exists
-
-#### waitForTestIdToBeGone
-
-Same as `waitForTextToBeGone` but for test ids
-
-#### waitForTextAndClick
-
-Wait for the text to be in the dom, and then click on the element that contains
-it
-
-#### waitFor modifiers
-
-The following functions are all just combinations of `waitForElement` and a
-given query like `getByTestId` or `getByText`. They will keep searching for the
-element for five seconds, and then error if it isn't found
-
-- waitForTestId
-- waitForText
-- waitForAltText
-- waitForPlaceholderText
+Returns a promise that will resolve when the fetchMock corresponding to the
+provided `fetchMockName` is called. Resolves with arguments passed into the
+`fetchMock` with `userState` stripped out. The optional second argument, allows
+the arguments to be processed before they get returned
 
 ## Custom Serializers
 
