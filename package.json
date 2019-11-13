@@ -1,6 +1,6 @@
 {
   "name": "react-cosmos-testing-library",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "An integration between react-cosmos-test and react-testing-library",
   "main": "dist/index.js",
   "engines": {
