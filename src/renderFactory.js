@@ -5,7 +5,7 @@ import {
   fireEvent,
   waitForDomChange,
   getByTestId as getByTestIdRoot,
-} from 'react-testing-library'
+} from '@testing-library/react'
 
 import render from './render'
 
