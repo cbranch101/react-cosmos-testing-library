@@ -1,5 +1,5 @@
 import createGenericContext from 'react-cosmos-test/generic'
-import {render as baseRender} from 'react-testing-library'
+import {render as baseRender} from '@testing-library/react'
 
 const createTestContext = fixture => {
   const context = createGenericContext({

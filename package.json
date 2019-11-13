@@ -1,6 +1,6 @@
 {
   "name": "react-cosmos-testing-library",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "An integration between react-cosmos-test and react-testing-library",
   "main": "dist/index.js",
   "engines": {
@@ -41,7 +41,7 @@
     "kcd-scripts": "^0.39.1"
   },
   "peerDependencies": {
-    "react-testing-library": "^5.0.0"
+    "@testing-library/react": "^9.3.2"
   },
   "eslintConfig": {
     "extends": "./node_modules/kcd-scripts/eslint.js",
